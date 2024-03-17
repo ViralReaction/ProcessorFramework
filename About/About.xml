@@ -7,7 +7,7 @@
 		<li>1.5</li>
 		<li>1.4</li>
 	</supportedVersions>
-	<packageId>vr.processor.framework</packageId>
+	<packageId>VR.processor.framework</packageId>
 	<description>A framework for processors to transform items and more, read player features!
 
 Main Feature
