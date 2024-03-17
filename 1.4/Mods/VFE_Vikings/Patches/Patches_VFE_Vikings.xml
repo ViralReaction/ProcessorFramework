@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+  <!-- Vanilla Factions Expanded - Vikings | OskarPotocki.VFE.Vikings -->
+  <Operation Class="PatchOperationRemove">
+    <xpath>*/ThingDef[defName = "VFEV_MeadFermentingBarrel"]/designationCategory</xpath>
+  </Operation>
+  <Operation Class="PatchOperationAdd">
+  <xpath>*/ThingDef[defName = "BarrelProcessor"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+    <value>
+      <li>VFEV_Mead</li>
+    </value>
+  </Operation>
+
+</Patch>

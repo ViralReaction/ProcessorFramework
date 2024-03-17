@@ -13,7 +13,7 @@ namespace ProcessorFramework
 			typeof(Thing).GetField("graphicInt", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(t, graphic);
 			if (t.Map != null)
 			{
-				t.Map.mapDrawer.MapMeshDirty(t.Position, MapMeshFlag.Things);
+				t.Map.mapDrawer.MapMeshDirty(t.Position, 1);
             }
 		}
 	}

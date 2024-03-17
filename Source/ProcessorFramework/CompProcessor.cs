@@ -403,7 +403,7 @@ namespace ProcessorFramework
         {
             if (powerTradeComp != null)
             {
-                powerTradeComp.PowerOutput = -powerTradeComp.Props.basePowerConsumption * PowerConsumptionRate;
+                powerTradeComp.PowerOutput = -powerTradeComp.Props.PowerConsumption * PowerConsumptionRate;
             }        
         }
         public void ConsumeFuel(int ticks)
@@ -488,7 +488,7 @@ namespace ProcessorFramework
                 thing.stackCount = GenMath.RoundRandom(activeProcess.ingredientCount * activeProcess.processDef.efficiency);
 
                 //Ingredient transfer
-                CompIngredients compIngredients = thing.TryGetComp<CompIngredients>();
+                /*CompIngredients compIngredients = thing.TryGetComp<CompIngredients>();
                 List<ThingDef> ingredientList = new List<ThingDef>();
                 foreach (Thing ingredientThing in activeProcess.ingredientThings)
                 {
@@ -501,10 +501,30 @@ namespace ProcessorFramework
                 if (compIngredients != null && !ingredientList.NullOrEmpty())
                 {
                     compIngredients.ingredients.AddRange(ingredientList);
+                }*/
+                if (thing.TryGetComp<CompIngredients>() is CompIngredients compIngredients)
+                {
+                    List<ThingDef> ingredientList = new List<ThingDef>();
+                    foreach (Thing ingredientThing in activeProcess.ingredientThings)
+                    {
+                        List<ThingDef> innerIngredients = ingredientThing.TryGetComp<CompIngredients>()?.ingredients;
+                        if (!innerIngredients.NullOrEmpty())
+                        {
+                            ingredientList.AddRange(innerIngredients);
+                        }
+                        else
+                        {
+                            compIngredients.RegisterIngredient(ingredientThing.def);
+                        }
+                    }
+                    if (compIngredients != null && !ingredientList.NullOrEmpty())
+                    {
+                        compIngredients.ingredients.AddRange(ingredientList);
+                    }
                 }
 
-                //Quality
-                if (activeProcess.processDef.usesQuality)
+                    //Quality
+                    if (activeProcess.processDef.usesQuality)
                 {
                     CompQuality compQuality = thing.TryGetComp<CompQuality>();
                     if (compQuality != null)
@@ -524,7 +544,7 @@ namespace ProcessorFramework
                             {
                                 for (int i = 0; i < amount; i++)
                                 {
-                                    PawnGenerationRequest request = new PawnGenerationRequest(bonusOutput.thingDef.race.AnyPawnKind, null, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, false, 1f, false, true, true, true, false, false, false, false, 0f, 0f, null, 1f, null, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false);
+                                    PawnGenerationRequest request = new PawnGenerationRequest(bonusOutput.thingDef.race.AnyPawnKind, null, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, 0, false, false, true, true, true, false, false, false, false, 0f, 0f, null, 1f, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false, false);
                                     Pawn productPawn = PawnGenerator.GeneratePawn(request);
                                     GenSpawn.Spawn(productPawn, parent.Position, parent.Map);
                                 }
@@ -553,7 +573,7 @@ namespace ProcessorFramework
             {
                 if (PF_Settings.replaceDestroyedProcessors)
                 {
-                    GenConstruct.PlaceBlueprintForBuild_NewTemp(parent.def, parent.Position, parent.Map, parent.Rotation, Faction.OfPlayer, null, null, null);
+                    GenConstruct.PlaceBlueprintForBuild(parent.def, parent.Position, parent.Map, parent.Rotation, Faction.OfPlayer, null, null, null);
                 }
                 parent.Destroy(DestroyMode.Vanish);
                 return thing;

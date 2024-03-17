@@ -66,7 +66,7 @@ namespace ProcessorFramework
                     {
 						for (int i = 0; i < product.stackCount; i++)
                         {
-							PawnGenerationRequest request = new PawnGenerationRequest(product.def.race.AnyPawnKind, Faction.OfPlayerSilentFail, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, false, 1f, false, true, true, true, false, false, false, false, 0f, 0f, null, 1f, null, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false);
+							PawnGenerationRequest request = new PawnGenerationRequest(product.def.race.AnyPawnKind, Faction.OfPlayerSilentFail, PawnGenerationContext.NonPlayer, -1, false, true, false, false, true, 0, false, false, true, true, true, false, false, false, false, 0f, 0f, null, 1f, null, null, null, null, null, null, null, null, null, null, null, null, false, false, false, false);
 							Pawn productPawn = PawnGenerator.GeneratePawn(request);
 							GenSpawn.Spawn(productPawn, pawn.Position, Map);
 						}
