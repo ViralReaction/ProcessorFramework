@@ -169,7 +169,7 @@ namespace ProcessorFramework
         public static bool ingredientIcon = true;
 
         public static bool showCurrentQualityIcon = true;
-        public static int defaultTargetQualityInt = 0;
+        public static int defaultTargetQualityInt = 2;
 
         public static bool replaceDestroyedProcessors = true;
         public static InitialProcessState initialProcessState = InitialProcessState.firstonly;
@@ -188,7 +188,7 @@ namespace ProcessorFramework
             Scribe_Values.Look<bool>(ref singleItemIcon, "PF_singleItemIcon", true, true);
             Scribe_Values.Look<bool>(ref productIcon, "PF_productIcon", true, true);
             Scribe_Values.Look<bool>(ref ingredientIcon, "PF_ingredientIcon", true, true);
-            Scribe_Values.Look<int>(ref defaultTargetQualityInt, "PF_defaultTargetQualityInt", 0, true);
+            Scribe_Values.Look<int>(ref defaultTargetQualityInt, "PF_defaultTargetQualityInt", 2, true);
             Scribe_Values.Look<bool>(ref replaceDestroyedProcessors, "PF_replaceDestroyedProcessors", true, true);
             Scribe_Values.Look(ref initialProcessState, "PF_initialProcessState", InitialProcessState.firstonly, true);
 
