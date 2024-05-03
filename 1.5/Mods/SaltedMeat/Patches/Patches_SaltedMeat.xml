@@ -9,8 +9,8 @@
     </value>
   </Operation>
 
-  <Operation Class="PatchOperationAdd">
-  <xpath>*/ThingDef[defName = "SM_MeatRack"]/comps/li[@Class="CompProperties_Refuelable"]</xpath>
+  <Operation Class="PatchOperationReplace">
+  <xpath>*/ThingDef[defName = "SM_MeatRack"]/comps/li[@Class="CompProperties_Refuelable"]/consumeFuelOnlyWhenUsed</xpath>
     <value>
       <consumeFuelOnlyWhenUsed>true</consumeFuelOnlyWhenUsed>
     </value>
