@@ -648,7 +648,7 @@ namespace ProcessorFramework
                 else if (activeProcesses[0].Ruined)
                     str.AppendTagged("PF_Ruined".Translate());
                 else if (activeProcesses[0].SpeedFactor < 0.75f)
-                    str.AppendTagged("PF_RunningSlow".Translate(activeProcesses[0].SpeedFactor.ToStringPercent(), activeProcesses[0].ActiveProcessPercent));
+                    str.AppendTagged("PF_RunningSlow".Translate(activeProcesses[0].SpeedFactor.ToStringPercent(), activeProcesses[0].ActiveProcessPercent.ToStringPercent()));
                 else
                     str.AppendTagged("PF_RunningInfo".Translate(activeProcesses[0].ActiveProcessPercent.ToStringPercent()));
             }

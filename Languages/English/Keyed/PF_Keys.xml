@@ -54,7 +54,7 @@
 	<PF_RunningCountRuined> ({0} ruined)</PF_RunningCountRuined>
 
 	<PF_RunningInfo>Running ({0} complete)</PF_RunningInfo>
-	<PF_RunningSlow>Running slowly: {0} speed ({0} complete)</PF_RunningSlow>
+	<PF_RunningSlow>Running slowly: {0} speed ({1} complete)</PF_RunningSlow>
   <PF_NonIdealInfluences>Non-ideal {0}</PF_NonIdealInfluences>
 	<PF_NonIdealSpeedFactor>Speed: {0}</PF_NonIdealSpeedFactor>
 	<PF_IdealSafeProductionTemperature>Ideal (safe) production temp</PF_IdealSafeProductionTemperature>
