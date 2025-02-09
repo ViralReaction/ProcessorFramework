@@ -186,7 +186,7 @@ namespace ProcessorFramework
             Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = GenUI.LerpColor(WhiteToYellowToRed, 1.0f - progress.ruinedPercent);
 
-            var (ingredientLabel, productLabel) = Tuple.Create(thing.LabelCap, GenLabel.ThingLabel(progress.processDef.thingDef, null, Mathf.RoundToInt(thing.stackCount * progress.processDef.efficiency)).CapitalizeFirst());
+            var (ingredientLabel, productLabel) = Tuple.Create(GenLabel.ThingLabel(thing.def, null, progress.ingredientCount).CapitalizeFirst(), GenLabel.ThingLabel(progress.processDef.thingDef, null, Mathf.RoundToInt(progress.ingredientCount * progress.processDef.efficiency)).CapitalizeFirst());
 
             Text.WordWrap = false;
             Widgets.Label(new Rect(ingredientArea.x + PaddedIcon, y, 200 - PaddedIcon, H), ingredientLabel.Truncate(ingredientArea.width));
