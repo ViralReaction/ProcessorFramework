@@ -553,6 +553,10 @@ namespace ProcessorFramework
                 ingredient.Destroy();
             }
             activeProcesses.Remove(activeProcess);
+            if (activeProcesses.Count == 0)
+            {
+                innerContainer.Clear();
+            }
 
             //Destroy chance
             if (Rand.Chance(activeProcess.processDef.destroyChance * activeProcess.ingredientCount * activeProcess.processDef.capacityFactor / Props.capacity))
@@ -648,7 +652,10 @@ namespace ProcessorFramework
                 else if (activeProcesses[0].Ruined)
                     str.AppendTagged("PF_Ruined".Translate());
                 else if (activeProcesses[0].SpeedFactor < 0.75f)
-                    str.AppendTagged("PF_RunningSlow".Translate(activeProcesses[0].SpeedFactor.ToStringPercent(), activeProcesses[0].ActiveProcessPercent));
+                {
+                    Log.Message(activeProcesses[0].ActiveProcessPercent);
+                    str.AppendTagged("PF_RunningSlow".Translate(activeProcesses[0].SpeedFactor.ToStringPercent().Named("SPEED"), activeProcesses[0].ActiveProcessPercent.ToStringPercent().Named("COMPLETE")));
+                }
                 else
                     str.AppendTagged("PF_RunningInfo".Translate(activeProcesses[0].ActiveProcessPercent.ToStringPercent()));
             }
