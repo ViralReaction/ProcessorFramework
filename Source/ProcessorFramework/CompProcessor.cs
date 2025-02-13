@@ -7,7 +7,6 @@ using System.Linq;
 using UnityEngine;
 using RimWorld;
 using Verse;
-using HarmonyLib;
 
 namespace ProcessorFramework
 {
@@ -35,7 +34,19 @@ namespace ProcessorFramework
         public bool Empty => TotalIngredientCount <= 0;
         public bool AnyComplete => activeProcesses.Any(x => x.Complete);
         public int SpaceLeft => Props.capacity - TotalIngredientCount;
-        public int TotalIngredientCount => Mathf.CeilToInt(activeProcesses.Sum(x => x.ingredientCount * x.processDef.capacityFactor));
+        public int TotalIngredientCount
+        {
+            get
+            {
+                float total = 0f;
+                for (int i = 0; i < activeProcesses.Count; i++)
+                {
+                    total += activeProcesses[i].ingredientCount * activeProcesses[i].processDef.capacityFactor;
+                }
+                return Mathf.CeilToInt(total);
+            }
+        }
+
         public HashSet<ThingDef> ValidIngredients
         {
             get
@@ -141,7 +152,11 @@ namespace ProcessorFramework
 
             if (PF_Settings.initialProcessState == PF_Settings.InitialProcessState.firstonly)
             {
-                ToggleProcess(Props.processes.First(), true);
+                if (Props.processes.Count > 0)
+                {
+                    ToggleProcess(Props.processes[0], true);
+                }
+
             }
             else if (PF_Settings.initialProcessState == PF_Settings.InitialProcessState.enabled)
             {
@@ -213,13 +228,131 @@ namespace ProcessorFramework
                 {
                     yield return ProcessorFramework_Utility.emptyNowGizmo;
                 }
-                yield return ProcessorFramework_Utility.qualityGizmos[activeProcesses.First(x => x.processDef.usesQuality).TargetQuality];
+                foreach (var process in activeProcesses)
+                {
+                    if (process.processDef.usesQuality)
+                    {
+                        yield return ProcessorFramework_Utility.qualityGizmos[process.TargetQuality];
+
+                    }
+                }
             }
         }
+
+        //public override void PostDraw()
+        //{
+        //    base.PostDraw();
+
+        //    if (!Empty)
+        //    {
+        //        if (graphicChangeQueued)
+        //        {
+        //            GraphicChange(false);
+        //            graphicChangeQueued = false;
+        //        }
+
+        //        bool showCurrentQuality = !Props.parallelProcesses && activeProcesses[0].processDef.usesQuality && PF_Settings.showCurrentQualityIcon;
+
+        //        // Cache properties
+        //        Vector3 drawPos = parent.DrawPos;
+        //        Vector2 barScale = Props.barScale;
+        //        Vector2 barOffset = Props.barOffset;
+        //        float barSizeX = Static_Bar.Size.x * barScale.x;
+        //        float barSizeY = Static_Bar.Size.y * barScale.y;
+
+        //        drawPos.x += barOffset.x - (showCurrentQuality ? 0.1f : 0f);
+        //        drawPos.y += 0.02f;
+        //        drawPos.z += barOffset.y;
+
+        //        // Border Mesh
+        //        Graphics.DrawMesh(
+        //            MeshPool.plane10,
+        //            Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(barSizeX + 0.1f, 1, barSizeY + 0.1f)),
+        //            Static_Bar.UnfilledMat,
+        //            0
+        //        );
+
+        //        // Draw Active Process Bars
+        //        float xPosAccum = 0;
+        //        int processCount = activeProcesses.Count;
+
+        //        for (int i = 0; i < processCount; i++)
+        //        {
+        //            ActiveProcess activeProcess = activeProcesses[i];
+
+        //            float width = barSizeX * ((float)activeProcess.ingredientCount * activeProcess.processDef.capacityFactor / Props.capacity);
+        //            float xPos = (drawPos.x - (barSizeX * 0.5f)) + (width * 0.5f) + xPosAccum;
+        //            xPosAccum += width;
+
+        //            Graphics.DrawMesh(
+        //                MeshPool.plane10,
+        //                Matrix4x4.TRS(new Vector3(xPos, drawPos.y + 0.01f, drawPos.z), Quaternion.identity, new Vector3(width, 1, barSizeY)),
+        //                activeProcess.ProgressColorMaterial,
+        //                0
+        //            );
+        //        }
+
+        //        // Draw Quality Icon Over Bar
+        //        if (showCurrentQuality)
+        //        {
+        //            drawPos.y += 0.02f;
+        //            drawPos.x += 0.45f * barScale.x;
+        //            Graphics.DrawMesh(
+        //                MeshPool.plane10,
+        //                Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(0.2f * barScale.x, 1f, 0.2f * barScale.y)),
+        //                ProcessorFramework_Utility.qualityMaterials[activeProcesses[0].CurrentQuality],
+        //                0
+        //            );
+        //        }
+        //    }
+
+        //    // Draw Process Icons
+        //    if (!activeProcesses.NullOrEmpty() && Props.showProductIcon && PF_Settings.showProcessIconGlobal
+        //        && parent.Map.designationManager.DesignationOn(parent) == null && !emptyNow)
+        //    {
+        //        Vector3 iconPos = parent.DrawPos;
+        //        float iconSizeX = PF_Settings.processIconSize * Props.productIconSize.x;
+        //        float iconSizeZ = PF_Settings.processIconSize * Props.productIconSize.y;
+
+        //        // Use HashSet to avoid unnecessary allocations from LINQ GroupBy
+        //        HashSet<ProcessDef> uniqueProcessDefs = new HashSet<ProcessDef>();
+        //        foreach (var process in activeProcesses)
+        //            uniqueProcessDefs.Add(process.processDef);
+
+        //        int uniqueCount = uniqueProcessDefs.Count;
+        //        iconPos.y += 0.2f;
+        //        iconPos.z += 0.05f;
+        //        iconPos.x -= (uniqueCount - 1) * iconSizeX * 0.25f;
+
+        //        foreach (ProcessDef processDef in uniqueProcessDefs)
+        //        {
+        //            Graphics.DrawMesh(
+        //                MeshPool.plane10,
+        //                Matrix4x4.TRS(iconPos, Quaternion.identity, new Vector3(iconSizeX, 1f, iconSizeZ)),
+        //                ProcessorFramework_Utility.processMaterials[processDef],
+        //                0
+        //            );
+        //            iconPos.x += iconSizeX * 0.5f;
+        //            iconPos.y -= 0.01f;
+        //        }
+        //    }
+
+        //    // Draw Empty Indicator
+        //    if (emptyNow)
+        //    {
+        //        Graphics.DrawMesh(
+        //            MeshPool.plane10,
+        //            Matrix4x4.TRS(parent.DrawPos + new Vector3(0f, 0.3f, 0f), Quaternion.identity, new Vector3(0.8f, 1f, 0.8f)),
+        //            MaterialPool.MatFrom(ProcessorFramework_Utility.emptyNowDesignation),
+        //            0
+        //        );
+        //    }
+        //}
 
         public override void PostDraw()
         {
             base.PostDraw();
+
             if (!Empty)
             {
                 if (graphicChangeQueued)
@@ -227,81 +360,117 @@ namespace ProcessorFramework
                     GraphicChange(false);
                     graphicChangeQueued = false;
                 }
-                bool showCurrentQuality = !Props.parallelProcesses && activeProcesses[0].processDef.usesQuality && PF_Settings.showCurrentQualityIcon;
+
+                // Cache first process if exists
+                bool hasProcesses = activeProcesses.Count > 0;
+                ActiveProcess firstProcess = hasProcesses ? activeProcesses[0] : null;
+                bool showCurrentQuality = hasProcesses && !Props.parallelProcesses
+                                          && firstProcess.processDef.usesQuality && PF_Settings.showCurrentQualityIcon;
+
+                // Cache properties
                 Vector3 drawPos = parent.DrawPos;
-                drawPos.x += Props.barOffset.x - (showCurrentQuality ? 0.1f : 0f);
+                Vector2 barScale = Props.barScale;
+                Vector2 barOffset = Props.barOffset;
+                float barSizeX = Static_Bar.Size.x * barScale.x;
+                float barSizeY = Static_Bar.Size.y * barScale.y;
+
+                drawPos.x += barOffset.x - (showCurrentQuality ? 0.1f : 0f);
                 drawPos.y += 0.02f;
-                drawPos.z += Props.barOffset.y;
+                drawPos.z += barOffset.y;
 
-                Vector2 size = Static_Bar.Size * Props.barScale;
+                // Border Mesh
+                Graphics.DrawMesh(
+                    MeshPool.plane10,
+                    Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(barSizeX + 0.1f, 1, barSizeY + 0.1f)),
+                    Static_Bar.UnfilledMat,
+                    0
+                );
 
-                // Border
-                Graphics.DrawMesh(MeshPool.plane10, Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(size.x + 0.1f, 1, size.y + 0.1f)), Static_Bar.UnfilledMat, 0);
+                // Draw Active Process Bars
+                if (hasProcesses)
+                {
+                    float xPosAccum = 0;
 
-                float xPosAccum = 0;
+                    for (int i = 0; i < activeProcesses.Count; i++)
+                    {
+                        ActiveProcess activeProcess = activeProcesses[i];
+
+                        float width = barSizeX * ((float)activeProcess.ingredientCount * activeProcess.processDef.capacityFactor / Props.capacity);
+                        float xPos = (drawPos.x - (barSizeX * 0.5f)) + (width * 0.5f) + xPosAccum;
+                        xPosAccum += width;
+
+                        Graphics.DrawMesh(
+                            MeshPool.plane10,
+                            Matrix4x4.TRS(new Vector3(xPos, drawPos.y + 0.01f, drawPos.z), Quaternion.identity, new Vector3(width, 1, barSizeY)),
+                            activeProcess.ProgressColorMaterial,
+                            0
+                        );
+                    }
+
+                    // Draw Quality Icon Over Bar
+                    if (showCurrentQuality)
+                    {
+                        drawPos.y += 0.02f;
+                        drawPos.x += 0.45f * barScale.x;
+                        Graphics.DrawMesh(
+                            MeshPool.plane10,
+                            Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(0.2f * barScale.x, 1f, 0.2f * barScale.y)),
+                            ProcessorFramework_Utility.qualityMaterials[firstProcess.CurrentQuality],
+                            0
+                        );
+                    }
+                }
+            }
+
+            // Draw Process Icons (only if required)
+            if (Props.showProductIcon && PF_Settings.showProcessIconGlobal
+                && parent.Map.designationManager.DesignationOn(parent) == null && !emptyNow && activeProcesses.Count > 0)
+            {
+                Vector3 iconPos = parent.DrawPos;
+                float iconSizeX = PF_Settings.processIconSize * Props.productIconSize.x;
+                float iconSizeZ = PF_Settings.processIconSize * Props.productIconSize.y;
+
+                // Use Dictionary<T, byte> instead of HashSet<T> (avoids HashSet overhead)
+                Dictionary<ProcessDef, byte> uniqueProcessDefs = new Dictionary<ProcessDef, byte>();
                 for (int i = 0; i < activeProcesses.Count; i++)
                 {
-                    ActiveProcess activeProcess = activeProcesses[i];
-                    float width = size.x * ((float)activeProcess.ingredientCount * activeProcess.processDef.capacityFactor / Props.capacity);
-                    float xPos = (drawPos.x - (size.x / 2.0f)) + (width / 2.0f) + xPosAccum;
-                    xPosAccum += width;
-                    Graphics.DrawMesh(MeshPool.plane10, Matrix4x4.TRS(new Vector3(xPos, drawPos.y + 0.01f, drawPos.z), Quaternion.identity, new Vector3(width, 1, size.y)), activeProcess.ProgressColorMaterial, 0);
+                    ProcessDef processDef = activeProcesses[i].processDef;
+                    if (!uniqueProcessDefs.ContainsKey(processDef))
+                    {
+                        uniqueProcessDefs[processDef] = 1;
+                    }
                 }
 
-                if (showCurrentQuality) // show small icon for current quality over bar
+                int uniqueCount = uniqueProcessDefs.Count;
+                iconPos.y += 0.2f;
+                iconPos.z += 0.05f;
+                iconPos.x -= (uniqueCount - 1) * iconSizeX * 0.25f;
+
+                foreach (KeyValuePair<ProcessDef, byte> kvp in uniqueProcessDefs)
                 {
-                    drawPos.y += 0.02f;
-                    drawPos.x += 0.45f * Props.barScale.x;
-                    Matrix4x4 matrix2 = default(Matrix4x4);
-                    matrix2.SetTRS(drawPos, Quaternion.identity, new Vector3(0.2f * Props.barScale.x, 1f, 0.2f * Props.barScale.y));
-                    Graphics.DrawMesh(MeshPool.plane10, matrix2, ProcessorFramework_Utility.qualityMaterials[activeProcesses[0].CurrentQuality], 0);
+                    Graphics.DrawMesh(
+                        MeshPool.plane10,
+                        Matrix4x4.TRS(iconPos, Quaternion.identity, new Vector3(iconSizeX, 1f, iconSizeZ)),
+                        ProcessorFramework_Utility.processMaterials[kvp.Key],
+                        0
+                    );
+                    iconPos.x += iconSizeX * 0.5f;
+                    iconPos.y -= 0.01f;
                 }
             }
-            if (!activeProcesses.NullOrEmpty() && Props.showProductIcon && PF_Settings.showProcessIconGlobal && parent.Map.designationManager.DesignationOn(parent) == null && !emptyNow)
-            {
-                Vector3 drawPos = parent.DrawPos;
-                float sizeX = PF_Settings.processIconSize * Props.productIconSize.x;
-                float sizeZ = PF_Settings.processIconSize * Props.productIconSize.y;
-                if (Props.processes.Count == 1 && activeProcesses[0].processDef.usesQuality) // show larger, centered quality icon if object has only one process
-                {
-                    drawPos.y += 0.02f;
-                    drawPos.z += 0.05f;
-                    Matrix4x4 matrix = default(Matrix4x4);
-                    matrix.SetTRS(drawPos, Quaternion.identity, new Vector3(0.6f * sizeX, 1f, 0.6f * sizeZ));
-                    Graphics.DrawMesh(MeshPool.plane10, matrix, ProcessorFramework_Utility.qualityMaterials[activeProcesses[0].TargetQuality], 0);
-                }
-                else if (!Empty) // show process icon if object has more than one process
-                {
-                    IEnumerable<ProcessDef> uniqueProcessDefs = activeProcesses.GroupBy(x => x.processDef).Select(x => x.Key);
-                    drawPos.y += 0.2f;
-                    drawPos.z += 0.05f;
-                    drawPos.x -= (uniqueProcessDefs.Count() - 1) * sizeX * 0.25f;
-                    foreach (ProcessDef processDef in uniqueProcessDefs)
-                    {
-                        Matrix4x4 matrix = default;
-                        matrix.SetTRS(drawPos, Quaternion.identity, new Vector3(sizeX, 1f, sizeZ));
-                        Graphics.DrawMesh(MeshPool.plane10, matrix, ProcessorFramework_Utility.processMaterials[processDef], 0);
-                        drawPos.x += sizeX * 0.5f;
-                        drawPos.y -= 0.01f;
-                    }
-                    /*if (activeProcesses[0].processDef.usesQuality && PF_Settings.showTargetQualityIcon) // show small offset quality icon if object also uses quality
-                    {
-                        drawPos.y += 0.01f;
-                        drawPos.x += 0.25f * sizeX;
-                        drawPos.z -= 0.35f * sizeZ;
-                        Matrix4x4 matrix2 = default(Matrix4x4);
-                        matrix2.SetTRS(drawPos, Quaternion.identity, new Vector3(0.4f * sizeX, 1f, 0.4f * sizeZ));
-                        Graphics.DrawMesh(MeshPool.plane10, matrix2, ProcessorFramework_Utility.qualityMaterials[activeProcesses[0].TargetQuality], 0);
-                    }*/
-                }
-            }
+
+            // Draw Empty Indicator (only if necessary)
             if (emptyNow)
             {
-                Matrix4x4 matrix = default;
-                matrix.SetTRS(parent.DrawPos + new Vector3(0f, 0.3f, 0f), Quaternion.identity, new Vector3(0.8f, 1f, 0.8f));
-                Graphics.DrawMesh(MeshPool.plane10, matrix, MaterialPool.MatFrom(ProcessorFramework_Utility.emptyNowDesignation), 0);
+                Graphics.DrawMesh(
+                    MeshPool.plane10,
+                    Matrix4x4.TRS(parent.DrawPos + new Vector3(0f, 0.3f, 0f), Quaternion.identity, new Vector3(0.8f, 1f, 0.8f)),
+                    MaterialPool.MatFrom(ProcessorFramework_Utility.emptyNowDesignation),
+                    0
+                );
             }
         }
+
 
         public override void CompTick()
         {
@@ -380,11 +549,23 @@ namespace ProcessorFramework
 
         public int SpaceLeftFor(ProcessDef processDef)
         {
-            if (!activeProcesses.NullOrEmpty() && !Props.parallelProcesses && processDef != activeProcesses.First().processDef)
+            if (activeProcesses.Count > 0)
             {
-                return 0;
+                if (!Props.parallelProcesses && processDef != activeProcesses[0].processDef)
+                {
+                    return 0;
+                }
+
+                float usedCapacity = 0f;
+                for (int i = 0; i < activeProcesses.Count; i++)
+                {
+                    usedCapacity += activeProcesses[i].ingredientCount * activeProcesses[i].processDef.capacityFactor;
+                }
+
+                return Mathf.FloorToInt((Props.capacity - usedCapacity) / processDef.capacityFactor);
             }
-            return Mathf.FloorToInt((Props.capacity - activeProcesses.Sum(x => x.ingredientCount * x.processDef.capacityFactor)) / processDef.capacityFactor);
+
+            return Mathf.FloorToInt(Props.capacity / processDef.capacityFactor);
         }
 
         public void DoTicks(int ticks)
