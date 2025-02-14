@@ -36,50 +36,55 @@ namespace ProcessorFramework
         public static void CurTabs_Postfix(ref IEnumerable<InspectTabBase> __result)
         {
             List<object> objects = Find.Selector.SelectedObjects;
-            if (objects == null || objects.Count == 0)
+            if (objects == null || objects.Count == 0) return;
+
+            int objectCount = objects.Count;
+
+            // Ensure cached selection exists before comparing
+            if (_cachedSelectedObjects.Count == objectCount)
             {
-                return;
-            }
-            if (_cachedSelectedObjects.Count == objects.Count)
-            {
+                if (_cachedResult == null) return;
                 bool sameSelection = true;
-                for (int i = 0; i < objects.Count; i++)
+                for (int i = 0; i < objectCount; i++)
                 {
                     if (_cachedSelectedObjects[i] != objects[i]) // Compare by reference
                     {
+                        sameSelection = false;
                         break;
                     }
                 }
+
                 if (sameSelection)
                 {
-                    if (_cachedResult != null)
-                    {
-                        __result = _cachedResult;
-
-                    }
+                    __result = _cachedResult;
                     return;
                 }
             }
+
+            // Reset cache when selection differs
             _cachedSelectedObjects.Clear();
             _cachedSelectedObjects.AddRange(objects);
             _cachedResult = null;
+
+            // Ensure objects is still valid before accessing index 0
             if (objects[0] is not ThingWithComps firstThing || firstThing.Faction != Faction.OfPlayerSilentFail)
             {
                 return;
             }
-            for (int i = 1; i < objects.Count; i++)
+
+            // Ensure all objects are the same type and belong to the player
+            for (int i = 1; i < objectCount; i++)
             {
                 if (objects[i] is not ThingWithComps thing || thing.Faction != Faction.OfPlayerSilentFail || thing.def != firstThing.def)
                 {
                     return;
                 }
             }
-            if (firstThing.TryGetComp<CompProcessor>() != null)
-            {
-                _cachedResult = firstThing.GetInspectTabs();
-                __result = _cachedResult;
-                return;
-            }
+            if (firstThing.TryGetComp<CompProcessor>() == null) return;
+
+            _cachedResult = firstThing.GetInspectTabs();
+            __result = _cachedResult;
+
         }
     }
 }
