@@ -1,0 +1,16 @@
+<Defs>
+
+	<ProcessorFramework.ProcessDef>
+		<defName>VFEM2_Mead</defName>
+		<thingDef>VFEM2_Mead</thingDef>
+		<ingredientFilter>
+			<thingDefs>
+				<li>VFEM2_Honey</li>
+			</thingDefs>
+		</ingredientFilter>
+		<processDays>6</processDays>
+		<efficiency>0.333</efficiency>
+		<capacityFactor>0.333</capacityFactor>
+	</ProcessorFramework.ProcessDef>
+
+</Defs>

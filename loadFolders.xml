@@ -26,9 +26,8 @@
 		<li>/</li>
 		<li>1.5</li>
 		<li IfModActive="sarg.rimbees">1.5/Mods/RimBees</li>
-		<li IfModActive="OskarPotocki.VanillaFactionsExpanded.MedievalModule">1.5/Mods/VFE_Medieval</li>
+		<li IfModActive="OskarPotocki.VFE.Medieval2">1.5/Mods/VFE_Medieval</li>
 		<li IfModActive="OskarPotocki.VanillaFactionsExpanded.SettlersModule">1.5/Mods/VFE_Settlers</li>
-		<li IfModActive="OskarPotocki.VFE.Vikings">1.5/Mods/VFE_Vikings</li>
 		<li IfModActive="jamaicancastle.RF.fertilefields">1.5/Mods/FertileFields</li>
 		<li IfModActive="dismarzero.VGP.VGPGardenDrinksUF">1.5/Mods/VGP</li>
 		<li IfModActive="Argon.SaltedMeatRemake">1.5/Mods/SaltedMeat</li>
