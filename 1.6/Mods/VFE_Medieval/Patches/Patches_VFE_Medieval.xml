@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+
+	<!-- Vanilla Factions Expanded - Medieval | OskarPotocki.VanillaFactionsExpanded.MedievalModule -->
+	<Operation Class="PatchOperationRemove">
+		<xpath>*/ThingDef[defName = "VFEM2_WineBarrel"]/designationCategory</xpath>
+	</Operation>
+	<Operation Class="PatchOperationAdd">
+		<xpath>*/ThingDef[defName = "BarrelProcessor"]/comps/li[@Class="ProcessorFramework.CompProperties_Processor"]/processes</xpath>
+		<value>
+			<li>VFEM2_Wine</li>
+		</value>
+	</Operation>
+ 
+
+</Patch>

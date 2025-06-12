@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+	<ProcessorFramework.ProcessDef>
+		<defName>VFEM2_Wine</defName>
+		<thingDef>VFEM2_Wine</thingDef>
+		<ingredientFilter>
+			<thingDefs>
+				<li>VFEM2_Must</li>
+			</thingDefs>
+		</ingredientFilter>
+		<capacityFactor>2.5</capacityFactor>
+		<usesQuality>true</usesQuality>
+		<qualityDays>(1, 3, 8, 14, 20, 50, 120)</qualityDays>
+	</ProcessorFramework.ProcessDef>
+
+</Defs>

@@ -32,6 +32,16 @@
 		<li IfModActive="dismarzero.VGP.VGPGardenDrinksUF">1.5/Mods/VGP</li>
 		<li IfModActive="Argon.SaltedMeatRemake">1.5/Mods/SaltedMeat</li>
 	</v1.5>
+	<v1.6>
+		<li>/</li>
+		<li>1.6</li>
+		<li IfModActive="sarg.rimbees">1.6/Mods/RimBees</li>
+		<li IfModActive="OskarPotocki.VFE.Medieval2">1.6/Mods/VFE_Medieval</li>
+		<li IfModActive="OskarPotocki.VanillaFactionsExpanded.SettlersModule">1.6/Mods/VFE_Settlers</li>
+		<li IfModActive="jamaicancastle.RF.fertilefields">1.6/Mods/FertileFields</li>
+		<li IfModActive="dismarzero.VGP.VGPGardenDrinksUF">1.6/Mods/VGP</li>
+		<li IfModActive="Argon.SaltedMeatRemake">1.6/Mods/SaltedMeat</li>
+	</v1.6>
 </loadFolders>
 
 
