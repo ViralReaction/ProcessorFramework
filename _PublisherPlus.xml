@@ -1,44 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Configuration>
+  <Title>[SYR] Processor Framework (Continued)</Title>
   <Excluded>
     <exclude>.git</exclude>
+    <exclude>1.3\Assemblies\0Harmony.pdb</exclude>
     <exclude>1.4\Source</exclude>
+    <exclude>1.5\Assemblies\0Harmony.pdb</exclude>
     <exclude>1.5\Source</exclude>
+    <exclude>1.6\Assemblies\0Harmony.pdb</exclude>
+    <exclude>1.6\Source</exclude>
     <exclude>Source</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_FishDrier_east.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_FishDrier_Full_east.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_FishDrier_Full_south.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_FishDrier_south.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_MeatRack_east.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_MeatRack_Full_east.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_MeatRack_Full_south.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_MeatRack_south.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_SausagePost_east.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_SausagePost_Full_east.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_SausagePost_Full_south.dds</exclude>
-    <exclude>Textures\Things\Building\Mods\SM_SausagePost_south.dds</exclude>
-    <exclude>Textures\Things\Building\Production\BarrelProcessor_east.dds</exclude>
-    <exclude>Textures\Things\Building\Production\BarrelProcessor_eastm.dds</exclude>
-    <exclude>Textures\Things\Building\Production\BarrelProcessor_north.dds</exclude>
-    <exclude>Textures\Things\Building\Production\BarrelProcessor_northm.dds</exclude>
-    <exclude>Textures\Things\Building\Production\TableBreweryStuffed_east.dds</exclude>
-    <exclude>Textures\Things\Building\Production\TableBreweryStuffed_eastm.dds</exclude>
-    <exclude>Textures\Things\Building\Production\TableBreweryStuffed_north.dds</exclude>
-    <exclude>Textures\Things\Building\Production\TableBreweryStuffed_northm.dds</exclude>
-    <exclude>Textures\Things\Building\Production\TableBreweryStuffed_south.dds</exclude>
-    <exclude>Textures\Things\Building\Production\TableBreweryStuffed_southm.dds</exclude>
-    <exclude>Textures\Things\Building\Production\TableBreweryVTEXE_east.dds</exclude>
-    <exclude>Textures\Things\Building\Production\TableBreweryVTEXE_north.dds</exclude>
-    <exclude>Textures\Things\Building\Production\TableBreweryVTEXE_south.dds</exclude>
-    <exclude>Textures\UI\DebugGoose.dds</exclude>
-    <exclude>Textures\UI\EmptyNow.dds</exclude>
-    <exclude>Textures\UI\EmptyNowDesignation.dds</exclude>
-    <exclude>Textures\UI\QualityIcons\Awful.dds</exclude>
-    <exclude>Textures\UI\QualityIcons\Excellent.dds</exclude>
-    <exclude>Textures\UI\QualityIcons\Good.dds</exclude>
-    <exclude>Textures\UI\QualityIcons\Legendary.dds</exclude>
-    <exclude>Textures\UI\QualityIcons\Masterwork.dds</exclude>
-    <exclude>Textures\UI\QualityIcons\Normal.dds</exclude>
-    <exclude>Textures\UI\QualityIcons\Poor.dds</exclude>
   </Excluded>
 </Configuration>
