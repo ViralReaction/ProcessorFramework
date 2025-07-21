@@ -1,80 +1,78 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5372EDE0-034E-43BD-9F46-024BD00055B8}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ProcessorFramework</RootNamespace>
-    <AssemblyName>ProcessorFramework</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <LangVersion>latest</LangVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>false</DebugSymbols>
-    <DebugType>none</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\..\1.5\Assemblies\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\..\1.6\Assemblies\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="ActiveProcess.cs" />
-    <Compile Include="BonusOutput.cs" />
-    <Compile Include="Building_ColorCoded.cs" />
-    <Compile Include="Command_Quality.cs" />
-    <Compile Include="CompProperties_Processor.cs" />
-    <Compile Include="CompProcessor.cs" />
-    <Compile Include="HarmonyPatches.cs" />
-    <Compile Include="DefOf.cs" />
-    <Compile Include="ITab_ProcessSelection.cs" />
-    <Compile Include="ITab_ProcessorContents.cs" />
-    <Compile Include="JobDriver_FillProcessor.cs" />
-    <Compile Include="JobDriver_EmptyProcessor.cs" />
-    <Compile Include="ProcessFilter.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="QualityDays.cs" />
-    <Compile Include="Static_Bar.cs" />
-    <Compile Include="Static_TexReloader.cs" />
-    <Compile Include="Static_Weather.cs" />
-    <Compile Include="ProcessDef.cs" />
-    <Compile Include="ProcessorFramework_Core.cs" />
-    <Compile Include="ProcessorFramework_Utility.cs" />
-    <Compile Include="WorkGiver_FillProcessor.cs" />
-    <Compile Include="WorkGiver_EmptyProcessor.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\..\2009463077\Current\Assemblies\0Harmony.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Krafs.Publicizer">
-      <Version>2.2.1</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Krafs.Rimworld.Ref">
-      <Version>1.6.4489-beta</Version>
-    </PackageReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+	<Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{5372EDE0-034E-43BD-9F46-024BD00055B8}</ProjectGuid>
+		<OutputType>Library</OutputType>
+		<AppDesignerFolder>Properties</AppDesignerFolder>
+		<RootNamespace>ProcessorFramework</RootNamespace>
+		<AssemblyName>ProcessorFramework</AssemblyName>
+		<TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+		<FileAlignment>512</FileAlignment>
+		<TargetFrameworkProfile/>
+		<LangVersion>latest</LangVersion>
+		<NuGetPackageImportStamp>
+		</NuGetPackageImportStamp>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<DebugSymbols>false</DebugSymbols>
+		<DebugType>none</DebugType>
+		<Optimize>false</Optimize>
+		<OutputPath>..\..\1.5\Assemblies\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<Prefer32Bit>false</Prefer32Bit>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<DebugType>none</DebugType>
+		<Optimize>true</Optimize>
+		<OutputPath>..\..\1.6\Assemblies\</OutputPath>
+		<DefineConstants>TRACE</DefineConstants>
+		<ErrorReport>prompt</ErrorReport>
+		<WarningLevel>4</WarningLevel>
+		<Prefer32Bit>false</Prefer32Bit>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="ActiveProcess.cs"/>
+		<Compile Include="BonusOutput.cs"/>
+		<Compile Include="Building_ColorCoded.cs"/>
+		<Compile Include="Command_Quality.cs"/>
+		<Compile Include="CompProperties_Processor.cs"/>
+		<Compile Include="CompProcessor.cs"/>
+		<Compile Include="HarmonyPatches.cs"/>
+		<Compile Include="DefOf.cs"/>
+		<Compile Include="ITab_ProcessSelection.cs"/>
+		<Compile Include="ITab_ProcessorContents.cs"/>
+		<Compile Include="JobDriver_FillProcessor.cs"/>
+		<Compile Include="JobDriver_EmptyProcessor.cs"/>
+		<Compile Include="ProcessFilter.cs"/>
+		<Compile Include="Properties\AssemblyInfo.cs"/>
+		<Compile Include="QualityDays.cs"/>
+		<Compile Include="Static_Bar.cs"/>
+		<Compile Include="Static_TexReloader.cs"/>
+		<Compile Include="Static_Weather.cs"/>
+		<Compile Include="ProcessDef.cs"/>
+		<Compile Include="ProcessorFramework_Core.cs"/>
+		<Compile Include="ProcessorFramework_Utility.cs"/>
+		<Compile Include="WorkGiver_FillProcessor.cs"/>
+		<Compile Include="WorkGiver_EmptyProcessor.cs"/>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Krafs.Publicizer" Version="2.3.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Krafs.Rimworld.Ref">
+			<Version>1.6.4489-beta</Version>
+		</PackageReference>
+		<PackageReference Include="Lib.Harmony">
+			<ExcludeAssets>runtime</ExcludeAssets>
+			<Version>2.3.6</Version>
+		</PackageReference>
+	</ItemGroup>
+	<Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
 </Project>
