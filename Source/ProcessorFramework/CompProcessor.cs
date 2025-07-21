@@ -183,15 +183,18 @@ namespace ProcessorFramework
 
         public override void PostDestroy(DestroyMode mode, Map previousMap)
         {
+
             base.PostDestroy(mode, previousMap);
             if (mode != DestroyMode.Vanish && Props.dropIngredients)
             {
-                foreach (Thing thing in innerContainer)
+                List<Thing> thingList = new List<Thing>(innerContainer);
+                for (int i = 0; i < thingList.Count; i++)
                 {
-                    GenSpawn.Spawn(thing, parent.Position, previousMap);
+                    GenSpawn.Spawn(thingList[i], parent.Position, previousMap);
                 }
             }
         }
+
 
         public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
         {
