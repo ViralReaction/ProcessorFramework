@@ -27,7 +27,6 @@ namespace ProcessorFramework
             comp = Processor.TryGetComp<CompProcessor>();
             ProcessDef processDef = comp.enabledProcesses.FirstOrDefault(y => y.Value.allowedIngredients.Contains(Ingredient.def)).Key;
             if (processDef == null) Log.Error("Processor Framework: Unable to find enabled process that allows " + Ingredient.Label + " for " + Processor);
-            float capacityFactor = processDef.capacityFactor;
 
             this.FailOnDespawnedNullOrForbidden(ProcessorInd);
 			this.FailOnBurningImmobile(ProcessorInd);

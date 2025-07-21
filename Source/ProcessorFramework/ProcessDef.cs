@@ -39,6 +39,9 @@ namespace ProcessorFramework
         public string customLabel = "";
         public float destroyChance = 0f;
         public List<BonusOutput> bonusOutputs = new List<BonusOutput>();
+        public bool useStatForEfficiency = false;
+        public StatDef efficiencyStat;
+        public float statBaselineValue = 1f;
 
 		public override void ResolveReferences()
 		{			

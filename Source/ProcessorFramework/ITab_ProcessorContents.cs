@@ -97,6 +97,8 @@ namespace ProcessorFramework
             if (progress == null)
                 return;
 
+            ProcessDef processDef = progress.processDef;
+
             // Areas
             Rect ingredientArea = new Rect(0, y, ThingWidth, H);
             Rect productArea = new Rect(ingredientArea.xMax, y, ThingWidth, H);
@@ -131,7 +133,7 @@ namespace ProcessorFramework
             TooltipHandler.TipRegion(percentAndSpeed, () => progress.ProgressTooltip, 23492376);
 
             // Quality label or dropdown to change the quality
-            if (progress.processDef.usesQuality)
+            if (processDef.usesQuality)
             {
                 Widgets.Dropdown(qualityArea, progress, p => p?.TargetQuality ?? QualityCategory.Normal, GetProgressQualityDropdowns,
                     progress.TargetQuality.GetLabel().CapitalizeFirst(),
@@ -179,14 +181,23 @@ namespace ProcessorFramework
             if (thingDef.DrawMatSingle?.mainTexture != null)
                 Widgets.ThingIcon(new Rect(ingredientArea.x, y, PaddedIcon, H), thing);
 
-            if (progress.processDef.thingDef?.DrawMatSingle?.mainTexture != null)
-                Widgets.ThingIcon(new Rect(productArea.x, y, PaddedIcon, H), progress.processDef.thingDef);
+            if (processDef.thingDef?.DrawMatSingle?.mainTexture != null)
+                Widgets.ThingIcon(new Rect(productArea.x, y, PaddedIcon, H), processDef.thingDef);
 
             // Product and ingredient labels
             Text.Anchor = TextAnchor.MiddleLeft;
             GUI.color = GenUI.LerpColor(WhiteToYellowToRed, 1.0f - progress.ruinedPercent);
+            int ingredientCount = IngredientCount(thing, processor, progress);
+            int productCount = ingredientCount;
+            if (processDef.useStatForEfficiency)
+            {
+                float ingredientEfficiency = thing.GetStatValue(processDef.efficiencyStat, false);
+                float processBaselineValue = processDef.statBaselineValue;
+                float efficiency = ingredientEfficiency / processBaselineValue;
+                productCount = Mathf.RoundToInt(ingredientCount * efficiency);
+            }
 
-            var (ingredientLabel, productLabel) = Tuple.Create(GenLabel.ThingLabel(thing.def, null, progress.ingredientCount).CapitalizeFirst(), GenLabel.ThingLabel(progress.processDef.thingDef, null, Mathf.RoundToInt(progress.ingredientCount * progress.processDef.efficiency)).CapitalizeFirst());
+            var (ingredientLabel, productLabel) = Tuple.Create(GenLabel.ThingLabel(thing.def, null, ingredientCount).CapitalizeFirst(), GenLabel.ThingLabel(progress.processDef.thingDef, null, Mathf.RoundToInt(productCount * processDef.efficiency)).CapitalizeFirst());
 
             Text.WordWrap = false;
             Widgets.Label(new Rect(ingredientArea.x + PaddedIcon, y, 200 - PaddedIcon, H), ingredientLabel.Truncate(ingredientArea.width));
@@ -219,6 +230,21 @@ namespace ProcessorFramework
                     payload = quality
                 };
             }
+        }
+
+        private int IngredientCount(Thing thing, CompProcessor processor, ActiveProcess activeProcess)
+        {
+            int ingredientCount = 0;
+            if (processor.Props.independentProcesses) return activeProcess.ingredientCount;
+            foreach (Thing realThing in processor.innerContainer)
+            {
+                if (realThing == null) continue;
+                if (realThing.def == thing.def)
+                {
+                    ingredientCount += realThing.stackCount;
+                }
+            }
+            return ingredientCount;
         }
     }
 }

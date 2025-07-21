@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using RimWorld;
 using UnityEngine;
@@ -123,15 +122,23 @@ namespace ProcessorFramework
         }
 
         /// <summary>Used when processes are not independent.</summary>
-        public void MergeProcess(Thing ingredient)
+        public void MergeProcess(Thing ingredient, float efficiency = 1f)
         {
             activeProcessTicks = Mathf.RoundToInt(GenMath.WeightedAverage(0f, ingredient.stackCount, activeProcessTicks, ingredientCount));
-            ingredientCount += ingredient.stackCount;
-            if (!ingredientThings.Any(x => x.CanStackWith(ingredient)))
+            int num = Mathf.RoundToInt(ingredient.stackCount * efficiency);
+            ingredientCount += num;
+            Thing existing = null;
+            foreach (Thing thing in ingredientThings)
+            {
+                if (!thing.CanStackWith(ingredient)) continue;
+                existing = thing;
+                break;
+            }
+            if (existing == null)
             {
                 ingredientThings.Add(ingredient);
             }
-            processor.innerContainer.TryAddOrTransfer(ingredient, true);
+            processor.innerContainer.TryAddOrTransfer(ingredient, ingredient.stackCount);
         }
 
         private float CalcSpeedFactor()
@@ -351,7 +358,7 @@ namespace ProcessorFramework
 
         public void ExposeData()
         {
-            Scribe_Defs.Look<ProcessDef>(ref processDef, "PF_processDef");
+            Scribe_Defs.Look(ref processDef, "PF_processDef");
             Scribe_Collections.Look(ref ingredientThings, "ingredientThings", LookMode.Reference);
             Scribe_Values.Look(ref ruinedPercent, "PF_ruinedPercent", 0f);
             Scribe_Values.Look(ref ingredientCount, "PF_ingredientCount", 0);

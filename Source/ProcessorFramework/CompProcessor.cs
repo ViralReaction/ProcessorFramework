@@ -16,15 +16,15 @@ namespace ProcessorFramework
         public Dictionary<ProcessDef, ProcessFilter> enabledProcesses = new Dictionary<ProcessDef, ProcessFilter>();
 
         public Dictionary<ProcessDef, QualityCategory> cachedTargetQualities = new Dictionary<ProcessDef, QualityCategory>();
-        public bool emptyNow = false;
+        public bool emptyNow;
 
-        public bool graphicChangeQueued = false;
+        public bool graphicChangeQueued;
 
         public CompRefuelable refuelComp;
         public CompPowerTrader powerTradeComp;
         public CompFlickable flickComp;
 
-        public ThingOwner innerContainer = null;
+        public ThingOwner innerContainer;
 
         //----------------------------------------------------------------------------------------------------
         // Properties
@@ -239,116 +239,6 @@ namespace ProcessorFramework
             }
         }
 
-        //public override void PostDraw()
-        //{
-        //    base.PostDraw();
-
-        //    if (!Empty)
-        //    {
-        //        if (graphicChangeQueued)
-        //        {
-        //            GraphicChange(false);
-        //            graphicChangeQueued = false;
-        //        }
-
-        //        bool showCurrentQuality = !Props.parallelProcesses && activeProcesses[0].processDef.usesQuality && PF_Settings.showCurrentQualityIcon;
-
-        //        // Cache properties
-        //        Vector3 drawPos = parent.DrawPos;
-        //        Vector2 barScale = Props.barScale;
-        //        Vector2 barOffset = Props.barOffset;
-        //        float barSizeX = Static_Bar.Size.x * barScale.x;
-        //        float barSizeY = Static_Bar.Size.y * barScale.y;
-
-        //        drawPos.x += barOffset.x - (showCurrentQuality ? 0.1f : 0f);
-        //        drawPos.y += 0.02f;
-        //        drawPos.z += barOffset.y;
-
-        //        // Border Mesh
-        //        Graphics.DrawMesh(
-        //            MeshPool.plane10,
-        //            Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(barSizeX + 0.1f, 1, barSizeY + 0.1f)),
-        //            Static_Bar.UnfilledMat,
-        //            0
-        //        );
-
-        //        // Draw Active Process Bars
-        //        float xPosAccum = 0;
-        //        int processCount = activeProcesses.Count;
-
-        //        for (int i = 0; i < processCount; i++)
-        //        {
-        //            ActiveProcess activeProcess = activeProcesses[i];
-
-        //            float width = barSizeX * ((float)activeProcess.ingredientCount * activeProcess.processDef.capacityFactor / Props.capacity);
-        //            float xPos = (drawPos.x - (barSizeX * 0.5f)) + (width * 0.5f) + xPosAccum;
-        //            xPosAccum += width;
-
-        //            Graphics.DrawMesh(
-        //                MeshPool.plane10,
-        //                Matrix4x4.TRS(new Vector3(xPos, drawPos.y + 0.01f, drawPos.z), Quaternion.identity, new Vector3(width, 1, barSizeY)),
-        //                activeProcess.ProgressColorMaterial,
-        //                0
-        //            );
-        //        }
-
-        //        // Draw Quality Icon Over Bar
-        //        if (showCurrentQuality)
-        //        {
-        //            drawPos.y += 0.02f;
-        //            drawPos.x += 0.45f * barScale.x;
-        //            Graphics.DrawMesh(
-        //                MeshPool.plane10,
-        //                Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(0.2f * barScale.x, 1f, 0.2f * barScale.y)),
-        //                ProcessorFramework_Utility.qualityMaterials[activeProcesses[0].CurrentQuality],
-        //                0
-        //            );
-        //        }
-        //    }
-
-        //    // Draw Process Icons
-        //    if (!activeProcesses.NullOrEmpty() && Props.showProductIcon && PF_Settings.showProcessIconGlobal
-        //        && parent.Map.designationManager.DesignationOn(parent) == null && !emptyNow)
-        //    {
-        //        Vector3 iconPos = parent.DrawPos;
-        //        float iconSizeX = PF_Settings.processIconSize * Props.productIconSize.x;
-        //        float iconSizeZ = PF_Settings.processIconSize * Props.productIconSize.y;
-
-        //        // Use HashSet to avoid unnecessary allocations from LINQ GroupBy
-        //        HashSet<ProcessDef> uniqueProcessDefs = new HashSet<ProcessDef>();
-        //        foreach (var process in activeProcesses)
-        //            uniqueProcessDefs.Add(process.processDef);
-
-        //        int uniqueCount = uniqueProcessDefs.Count;
-        //        iconPos.y += 0.2f;
-        //        iconPos.z += 0.05f;
-        //        iconPos.x -= (uniqueCount - 1) * iconSizeX * 0.25f;
-
-        //        foreach (ProcessDef processDef in uniqueProcessDefs)
-        //        {
-        //            Graphics.DrawMesh(
-        //                MeshPool.plane10,
-        //                Matrix4x4.TRS(iconPos, Quaternion.identity, new Vector3(iconSizeX, 1f, iconSizeZ)),
-        //                ProcessorFramework_Utility.processMaterials[processDef],
-        //                0
-        //            );
-        //            iconPos.x += iconSizeX * 0.5f;
-        //            iconPos.y -= 0.01f;
-        //        }
-        //    }
-
-        //    // Draw Empty Indicator
-        //    if (emptyNow)
-        //    {
-        //        Graphics.DrawMesh(
-        //            MeshPool.plane10,
-        //            Matrix4x4.TRS(parent.DrawPos + new Vector3(0f, 0.3f, 0f), Quaternion.identity, new Vector3(0.8f, 1f, 0.8f)),
-        //            MaterialPool.MatFrom(ProcessorFramework_Utility.emptyNowDesignation),
-        //            0
-        //        );
-        //    }
-        //}
-
         public override void PostDraw()
         {
             base.PostDraw();
@@ -534,7 +424,7 @@ namespace ProcessorFramework
                     enabledProcesses[processDef] = new ProcessFilter(new List<ThingDef> { ingredient });
                 }
             }
-            else if (!on && enabledProcesses.ContainsKey(processDef) && enabledProcesses[processDef].allowedIngredients.Contains(ingredient))
+            else if (enabledProcesses.ContainsKey(processDef) && enabledProcesses[processDef].allowedIngredients.Contains(ingredient))
             {
                 if (enabledProcesses[processDef].allowedIngredients.Count == 1)
                 {
@@ -547,7 +437,7 @@ namespace ProcessorFramework
             }
         }
 
-        public int SpaceLeftFor(ProcessDef processDef)
+        public int SpaceLeftFor(ProcessDef processDef, float efficiency = 1f)
         {
             if (activeProcesses.Count > 0)
             {
@@ -620,43 +510,50 @@ namespace ProcessorFramework
 
         public void AddIngredient(Thing ingredient, ProcessDef processDef)
         {
-            int num = Mathf.Min(ingredient.stackCount, SpaceLeftFor(processDef));
+            float efficiency = 1f;
+            if (processDef.useStatForEfficiency)
+            {
+                float ingredientEfficiency = ingredient.GetStatValue(processDef.efficiencyStat, false);
+                float processBaselineValue = processDef.statBaselineValue;
+                efficiency = ingredientEfficiency / processBaselineValue;
+            }
+
+            int num = Mathf.Min(ingredient.stackCount, SpaceLeftFor(processDef) / (int)efficiency);
             if (num < ingredient.stackCount)
             {
                 GenDrop.TryDropSpawn(ingredient.SplitOff(ingredient.stackCount - num), parent.Position, parent.Map, ThingPlaceMode.Near, out _);
             }
             bool emptyBefore = Empty;
-            if (num > 0 && processDef != null)
+            if (num <= 0) return;
+            if (!Props.independentProcesses && FindActiveProcess(processDef) is ActiveProcess existingProcess)
             {
-                if (!Props.independentProcesses && FindActiveProcess(processDef) is ActiveProcess existingProcess)
-                {
-                    TryMergeProcess(ingredient, existingProcess);
-                }
-                else
-                {
-                    TryAddNewProcess(ingredient, processDef);
-                }
-                if (emptyBefore && !Empty)
-                {
-                    GraphicChange(false);
-                }
+                TryMergeProcess(ingredient, existingProcess, efficiency);
+            }
+            else
+            {
+                TryAddNewProcess(ingredient, processDef, efficiency);
+            }
+            if (emptyBefore && !Empty)
+            {
+                GraphicChange(false);
             }
         }
-        private void TryAddNewProcess(Thing ingredient, ProcessDef processDef)
+        private void TryAddNewProcess(Thing ingredient, ProcessDef processDef, float efficiency = 1f)
         {
+            int num = Mathf.RoundToInt(ingredient.stackCount * efficiency);
             activeProcesses.Add(new ActiveProcess(this)
             {
                 processDef = processDef,
-                ingredientCount = ingredient.stackCount,
-                ingredientThings = new List<Thing> { ingredient },
-                targetQuality = cachedTargetQualities.ContainsKey(processDef) ? cachedTargetQualities[processDef] : (QualityCategory)PF_Settings.defaultTargetQualityInt
+                ingredientCount = num,
+                ingredientThings = [ingredient],
+                targetQuality = cachedTargetQualities.TryGetValue(processDef, out QualityCategory quality) ? quality : (QualityCategory)PF_Settings.defaultTargetQualityInt
             });
             innerContainer.TryAddOrTransfer(ingredient, false);
-            
+
         }
-        private void TryMergeProcess(Thing ingredient, ActiveProcess activeProcess)
+        private void TryMergeProcess(Thing ingredient, ActiveProcess activeProcess, float efficiency)
         {
-            activeProcess.MergeProcess(ingredient);
+            activeProcess.MergeProcess(ingredient, efficiency);
         }
 
 

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -39,7 +38,25 @@ namespace ProcessorFramework
 
             if (comp == null || comp.enabledProcesses.EnumerableNullOrEmpty()) return false;
 
-            ProcessDef smallestProcess = comp.Props.parallelProcesses || comp.activeProcesses.NullOrEmpty() ? comp.enabledProcesses.Keys.MinBy(x => x.capacityFactor) : comp.activeProcesses.First().processDef; 
+            ProcessDef smallestProcess = null;
+
+            if (comp.Props.parallelProcesses || comp.activeProcesses == null || comp.activeProcesses.Count == 0)
+            {
+                float smallestFactor = float.MaxValue;
+
+                foreach (var processDef in comp.enabledProcesses.Keys)
+                {
+                    if (processDef.capacityFactor < smallestFactor)
+                    {
+                        smallestFactor = processDef.capacityFactor;
+                        smallestProcess = processDef;
+                    }
+                }
+            }
+            else
+            {
+                smallestProcess = comp.activeProcesses[0].processDef;
+            }
             //process with smallest capacity factor, if not empty and no parallel processes the current active process is taken instead
             if (comp.SpaceLeftFor(smallestProcess) < 1) return false; //check if enough space for one ingredient for smallest process
 
@@ -70,9 +87,35 @@ namespace ProcessorFramework
         {
             CompProcessor comp = t.TryGetComp<CompProcessor>();
             Thing ingredient = FindIngredient(pawn, comp);
+            ProcessDef processDef = null;
+            foreach (KeyValuePair<ProcessDef, ProcessFilter> kvp in comp.enabledProcesses)
+            {
+                if (!kvp.Value.allowedIngredients.Contains(ingredient.def)) continue;
+                processDef = kvp.Key;
+                break;
+            }
+
+            int count = 0;
+            if (processDef != null)
+            {
+                int spaceLeft = comp.SpaceLeftFor(processDef);
+                int stackCount = ingredient.stackCount;
+
+                if (processDef.useStatForEfficiency)
+                {
+                    float ingredientEfficiency = ingredient.GetStatValue(processDef.efficiencyStat, false);
+                    float processBaselineValue = processDef.statBaselineValue;
+                    float efficiency = ingredientEfficiency / processBaselineValue;
+                    spaceLeft = Mathf.RoundToInt(spaceLeft / efficiency);
+                }
+
+                int availableCarrySpace = pawn.carryTracker.AvailableStackSpace(ingredient.def);
+
+                count = Mathf.Min(spaceLeft, stackCount, availableCarrySpace);
+            }
             Job job = new Job(DefOf.FillProcessor, t, ingredient)
             {
-                count = Mathf.Min(comp.SpaceLeftFor(comp.enabledProcesses.FirstOrDefault(y => y.Value.allowedIngredients.Contains(ingredient.def)).Key), ingredient.stackCount, pawn.carryTracker.AvailableStackSpace(ingredient.def))
+                count = count
             };
             return job;
         }
@@ -88,7 +131,16 @@ namespace ProcessorFramework
 
                 if (!validIngredients.Contains(x.def)) return false;
 
-                ProcessDef processDef = comp.enabledProcesses.FirstOrDefault(y => y.Value.allowedIngredients.Contains(x.def)).Key;
+                ProcessDef processDef = null;
+                foreach (var kvp in comp.enabledProcesses)
+                {
+                    if (kvp.Value.allowedIngredients.Contains(x.def))
+                    {
+                        processDef = kvp.Key;
+                        break;
+                    }
+                }
+
                 if (processDef == null) return false;
 
                 if (!pawn.CanReserve(x, 1, Mathf.Min(comp.SpaceLeftFor(processDef), x.stackCount, pawn.carryTracker.AvailableStackSpace(x.def))) 
