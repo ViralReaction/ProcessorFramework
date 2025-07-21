@@ -354,3 +354,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 *.dds
+1.6/Assemblies/0Harmony.dll
