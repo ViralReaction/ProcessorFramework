@@ -26,6 +26,7 @@ namespace ProcessorFramework
             {
                 Listing_Standard listing_Standard = new Listing_Standard();
                 listing_Standard.Begin(inRect);
+                listing_Standard.CheckboxLabeled("PF_ShowProcessBar".Translate(), ref PF_Settings.showProcessBar, "PF_ShowProcessBarTooltip".Translate());
                 listing_Standard.CheckboxLabeled("PF_ShowProcessIcon".Translate(), ref PF_Settings.showProcessIconGlobal, "PF_ShowProcessIconTooltip".Translate());
 
                 listing_Standard.Label("PF_ProcessIconSize".Translate() +  ": <color=#FFFF44>" + PF_Settings.processIconSize.ToStringByStyle(ToStringStyle.PercentZero) + "</color>", -1, "PF_ProcessIconSizeTooltip".Translate());
@@ -171,6 +172,8 @@ namespace ProcessorFramework
         public static bool showCurrentQualityIcon = true;
         public static int defaultTargetQualityInt = 2;
 
+        public static bool showProcessBar = true;
+
         public static bool replaceDestroyedProcessors = true;
         public static InitialProcessState initialProcessState = InitialProcessState.firstonly;
         public enum InitialProcessState
@@ -191,6 +194,7 @@ namespace ProcessorFramework
             Scribe_Values.Look<int>(ref defaultTargetQualityInt, "PF_defaultTargetQualityInt", 2, true);
             Scribe_Values.Look<bool>(ref replaceDestroyedProcessors, "PF_replaceDestroyedProcessors", true, true);
             Scribe_Values.Look(ref initialProcessState, "PF_initialProcessState", InitialProcessState.firstonly, true);
+            Scribe_Values.Look<bool>(ref showProcessBar, "PF_showProcessBar", true, true);
 
         }
     }

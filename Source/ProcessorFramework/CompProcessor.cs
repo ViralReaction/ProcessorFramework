@@ -256,9 +256,11 @@ namespace ProcessorFramework
 
                 // Cache first process if exists
                 bool hasProcesses = activeProcesses.Count > 0;
-                ActiveProcess firstProcess = hasProcesses ? activeProcesses[0] : null;
-                bool showCurrentQuality = hasProcesses && !Props.parallelProcesses
-                                          && firstProcess.processDef.usesQuality && PF_Settings.showCurrentQualityIcon;
+                if (!hasProcesses) return;
+                ActiveProcess firstProcess = activeProcesses[0];
+                bool showCurrentQuality = !Props.parallelProcesses
+                        && firstProcess.processDef.usesQuality
+                        && PF_Settings.showCurrentQualityIcon;
 
                 // Cache properties
                 Vector3 drawPos = parent.DrawPos;
@@ -271,25 +273,27 @@ namespace ProcessorFramework
                 drawPos.y += 0.02f;
                 drawPos.z += barOffset.y;
 
-                // Border Mesh
-                Graphics.DrawMesh(
-                    MeshPool.plane10,
-                    Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(barSizeX + 0.1f, 1, barSizeY + 0.1f)),
-                    Static_Bar.UnfilledMat,
-                    0
-                );
+
 
                 // Draw Active Process Bars
-                if (hasProcesses)
+                if (PF_Settings.showProcessBar)
                 {
+                    // Border Mesh
+                    Graphics.DrawMesh(
+                        MeshPool.plane10,
+                        Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(barSizeX + 0.1f, 1, barSizeY + 0.1f)),
+                        Static_Bar.UnfilledMat,
+                        0
+                    );
                     float xPosAccum = 0;
+                    float baseX = drawPos.x - (barSizeX * 0.5f);
 
                     for (int i = 0; i < activeProcesses.Count; i++)
                     {
                         ActiveProcess activeProcess = activeProcesses[i];
 
-                        float width = barSizeX * ((float)activeProcess.ingredientCount * activeProcess.processDef.capacityFactor / Props.capacity);
-                        float xPos = (drawPos.x - (barSizeX * 0.5f)) + (width * 0.5f) + xPosAccum;
+                        float width = barSizeX * (activeProcess.ingredientCount * activeProcess.processDef.capacityFactor / Props.capacity);
+                        float xPos = baseX + (width * 0.5f) + xPosAccum;
                         xPosAccum += width;
 
                         Graphics.DrawMesh(
@@ -299,20 +303,21 @@ namespace ProcessorFramework
                             0
                         );
                     }
-
-                    // Draw Quality Icon Over Bar
-                    if (showCurrentQuality)
-                    {
-                        drawPos.y += 0.02f;
-                        drawPos.x += 0.45f * barScale.x;
-                        Graphics.DrawMesh(
-                            MeshPool.plane10,
-                            Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(0.2f * barScale.x, 1f, 0.2f * barScale.y)),
-                            ProcessorFramework_Utility.qualityMaterials[firstProcess.CurrentQuality],
-                            0
-                        );
-                    }
                 }
+
+                // Draw Quality Icon Over Bar
+                if (showCurrentQuality)
+                {
+                    drawPos.y += 0.02f;
+                    drawPos.x += 0.45f * barScale.x;
+                    Graphics.DrawMesh(
+                        MeshPool.plane10,
+                        Matrix4x4.TRS(drawPos, Quaternion.identity, new Vector3(0.2f * barScale.x, 1f, 0.2f * barScale.y)),
+                        ProcessorFramework_Utility.qualityMaterials[firstProcess.CurrentQuality],
+                        0
+                    );
+                }
+
             }
 
             // Draw Process Icons (only if required)
@@ -376,6 +381,7 @@ namespace ProcessorFramework
             {
                 DoActiveProcessesRareTicks();
                 AdjustPowerConsumption();
+                //graphicChangeQueued = true;
             }
         }
         public override void CompTickRare()

@@ -13,32 +13,34 @@
 	<PF_ShowTargetQualityIconTooltip>Shows an icon next to the process icon that indicates the target quality set, only works if 'show process icon' is true (default: false)</PF_ShowTargetQualityIconTooltip>
 	<PF_SingleItemIcon>Single item icons</PF_SingleItemIcon>
 	<PF_SingleItemIconTooltip>If enabled will use icons that resemble a single item, otherwise will use icons that resemble a full stack (default: true)</PF_SingleItemIconTooltip>
-  <PF_ProductIcon>Show product icon</PF_ProductIcon>
-  <PF_ProductIconTooltip>Displays icons next to products in the process selection inspector tab</PF_ProductIconTooltip>
-  <PF_IngredientIcon>Show ingredient icon</PF_IngredientIcon>
-  <PF_IngredientIconTooltip>Displays icons next to ingredients in the process selection inspector tab</PF_IngredientIconTooltip>
-  <PF_initialProcessState>Default configuration of processes</PF_initialProcessState>
-  <PF_initialProcessStateTooltip>This setting controls how newly built processors have their processes toggled</PF_initialProcessStateTooltip>
-  <PF_firstOnly>First only</PF_firstOnly>
-  <PF_firstOnlyTooltip>Only the first process on newly built processors is enabled</PF_firstOnlyTooltip>
-  <PF_allEnabled>Enabled</PF_allEnabled>
-  <PF_allEnabledTooltip>All processes on newly built processors are enabled</PF_allEnabledTooltip>
-  <PF_allDisabled>Disabled</PF_allDisabled>
-  <PF_allDisabledTooltip>All processes on newly built processors are disabled</PF_allDisabledTooltip>
-  <PF_defaultQuality>Default target quality</PF_defaultQuality>
-  <PF_defaultQualityTooltip>Which target quality is set by default for processes that use quality</PF_defaultQualityTooltip>
-  <PF_replaceDestroyedProcessors>Replace destroyed processors</PF_replaceDestroyedProcessors>
-  <PF_replaceDestroyedProcessorsTooltip>Some processes destroy the processor, enabling this option will place a blueprint if that happens</PF_replaceDestroyedProcessorsTooltip>
+	<PF_ProductIcon>Show product icon</PF_ProductIcon>
+	<PF_ProductIconTooltip>Displays icons next to products in the process selection inspector tab</PF_ProductIconTooltip>
+	<PF_IngredientIcon>Show ingredient icon</PF_IngredientIcon>
+	<PF_IngredientIconTooltip>Displays icons next to ingredients in the process selection inspector tab</PF_IngredientIconTooltip>
+	<PF_initialProcessState>Default configuration of processes</PF_initialProcessState>
+	<PF_initialProcessStateTooltip>This setting controls how newly built processors have their processes toggled</PF_initialProcessStateTooltip>
+	<PF_firstOnly>First only</PF_firstOnly>
+	<PF_firstOnlyTooltip>Only the first process on newly built processors is enabled</PF_firstOnlyTooltip>
+	<PF_allEnabled>Enabled</PF_allEnabled>
+	<PF_allEnabledTooltip>All processes on newly built processors are enabled</PF_allEnabledTooltip>
+	<PF_allDisabled>Disabled</PF_allDisabled>
+	<PF_allDisabledTooltip>All processes on newly built processors are disabled</PF_allDisabledTooltip>
+	<PF_defaultQuality>Default target quality</PF_defaultQuality>
+	<PF_defaultQualityTooltip>Which target quality is set by default for processes that use quality</PF_defaultQualityTooltip>
+	<PF_replaceDestroyedProcessors>Replace destroyed processors</PF_replaceDestroyedProcessors>
+	<PF_replaceDestroyedProcessorsTooltip>Some processes destroy the processor, enabling this option will place a blueprint if that happens</PF_replaceDestroyedProcessorsTooltip>
 	<PF_ReplaceVanillaBarrels>Replace vanilla barrels</PF_ReplaceVanillaBarrels>
 	<PF_ReplaceVanillaBarrelsTooltip>Replaces all vanilla fermenting barrels for the PF ones, intended to be used after adding PF to an existing game, not multiplayer safe</PF_ReplaceVanillaBarrelsTooltip>
 	<PF_DefaultSettings>Reset to default</PF_DefaultSettings>
 	<PF_DefaultSettingsTooltip>Reset settings to default values</PF_DefaultSettingsTooltip>
+	<PF_ShowProcessBar>Show progress bar</PF_ShowProcessBar>
+	<PF_ShowProcessBarTooltip>Displays progress bar of the active process</PF_ShowProcessBarTooltip>
 
-  <!-- Gizmos -->
-  <PF_emptyNow>Designates this processor to be emptied</PF_emptyNow>
-  <PF_emptyNowDescription>Designates this processor to be emptied by colonists, no matter what quality has been reached</PF_emptyNowDescription>
-  <PF_dontEmpty>Cancel empty designation</PF_dontEmpty>
-  <PF_dontEmptyDescription>Cancels the designation for this processor to be emptied</PF_dontEmptyDescription>
+	<!-- Gizmos -->
+	<PF_emptyNow>Designates this processor to be emptied</PF_emptyNow>
+	<PF_emptyNowDescription>Designates this processor to be emptied by colonists, no matter what quality has been reached</PF_emptyNowDescription>
+	<PF_dontEmpty>Cancel empty designation</PF_dontEmpty>
+	<PF_dontEmptyDescription>Cancels the designation for this processor to be emptied</PF_dontEmptyDescription>
 
 	<!-- Inspector Strings -->
 	<PF_ContainsIngredientsGeneric>Capacity: {0} / {1}</PF_ContainsIngredientsGeneric>
@@ -48,14 +50,14 @@
 	<PF_Progress>Progress: {0} ({1})</PF_Progress>
 
 	<PF_NumProcessing>{0} {STACKS} processing</PF_NumProcessing>
-  <PF_RunningStacksNoun>stack</PF_RunningStacksNoun>
-	<PF_RunningCountSlow> ({0} slow)</PF_RunningCountSlow>
-	<PF_RunningCountFinished> ({0} finished)</PF_RunningCountFinished>
-	<PF_RunningCountRuined> ({0} ruined)</PF_RunningCountRuined>
+	<PF_RunningStacksNoun>stack</PF_RunningStacksNoun>
+	<PF_RunningCountSlow>({0} slow)</PF_RunningCountSlow>
+	<PF_RunningCountFinished>({0} finished)</PF_RunningCountFinished>
+	<PF_RunningCountRuined>({0} ruined)</PF_RunningCountRuined>
 
 	<PF_RunningInfo>Running ({0} complete)</PF_RunningInfo>
 	<PF_RunningSlow>Running slowly: {SPEED} speed ({COMPLETE} complete)</PF_RunningSlow>
-  <PF_NonIdealInfluences>Non-ideal {0}</PF_NonIdealInfluences>
+	<PF_NonIdealInfluences>Non-ideal {0}</PF_NonIdealInfluences>
 	<PF_NonIdealSpeedFactor>Speed: {0}</PF_NonIdealSpeedFactor>
 	<PF_IdealSafeProductionTemperature>Ideal (safe) production temp</PF_IdealSafeProductionTemperature>
 	<PF_Finished>Finished</PF_Finished>
@@ -76,20 +78,20 @@
 
 	<PF_OldBarrelInspectString>Old vanilla barrel, install it anywhere to replace it for universal fermenter</PF_OldBarrelInspectString>
 
-  <!-- ITab Process Selection -->
-  <PF_ITab_ItemSelection>Processes</PF_ITab_ItemSelection>
-  <PF_ApplySettings>Apply settings</PF_ApplySettings>
-  <PF_DestroyChanceTooltip>Chance processor will be destroyed when this product is retrieved</PF_DestroyChanceTooltip>
-  <PF_EfficiencyTooltip>Amount of ingredient needed for one product</PF_EfficiencyTooltip>
+	<!-- ITab Process Selection -->
+	<PF_ITab_ItemSelection>Processes</PF_ITab_ItemSelection>
+	<PF_ApplySettings>Apply settings</PF_ApplySettings>
+	<PF_DestroyChanceTooltip>Chance processor will be destroyed when this product is retrieved</PF_DestroyChanceTooltip>
+	<PF_EfficiencyTooltip>Amount of ingredient needed for one product</PF_EfficiencyTooltip>
 
-  <!-- ITab Process Contents -->
-  <PF_TabProductFilter>Product</PF_TabProductFilter>
+	<!-- ITab Process Contents -->
+	<PF_TabProductFilter>Product</PF_TabProductFilter>
 	<PF_TabIngredientFilter>Filter</PF_TabIngredientFilter>
 	<PF_TabContents>Contents</PF_TabContents>
 	<PF_FermentingItems>Ingredients</PF_FermentingItems>
 	<PF_Product>Product</PF_Product>
 	<PF_TargetQuality>Target</PF_TargetQuality>
-  <PF_CreatingTooltip1>Creating {PRODUCT}{QUALITY} from {INGREDIENT}.\n</PF_CreatingTooltip1>
+	<PF_CreatingTooltip1>Creating {PRODUCT}{QUALITY} from {INGREDIENT}.\n</PF_CreatingTooltip1>
 	<PF_CreatingTooltip2_Quality>\nProcessing time to Awful quality: {TOAWFUL}.\n</PF_CreatingTooltip2_Quality>
 	<PF_CreatingTooltip2_NoQuality>\nProcessing time: {TIME}.\n</PF_CreatingTooltip2_NoQuality>
 	<PF_CreatingTooltip3>\nIdeal running temperature: {MIN}~{MAX}.\n</PF_CreatingTooltip3>
